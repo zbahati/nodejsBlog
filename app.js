@@ -4,21 +4,22 @@ const express = require("express");
 const app = express();
 const expressEjsLayout = require("express-ejs-layouts");
 
+const connectDB = require('./server/config/db')
 
-// app layout
+
+// app layout and middleware
 app.use(expressEjsLayout);
 app.set('layout','./layout/main');
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
-// route 
+app.use('/', require("./server/routes/main"));
 
-app.get('/', (req, res) => {
-    res.send("Hello world");
-})
-
+// listing 
 const PORT = process.env.PORT || 4000
+
+connectDB();
 
 app.listen(PORT, ()=> {
     console.log(`Server is running on the Port: ${PORT}`)
